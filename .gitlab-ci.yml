@@ -11,4 +11,4 @@ test:
       - valgrind_logs/
       - valgrind_logs_user/
   except:
-      - auto-main
+      - /^auto-.*$/
