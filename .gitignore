@@ -1,0 +1,8 @@
+.idea
+.vscode
+main
+a1
+build/
+valgrind_logs/
+testreport.html
+csv_files/
