@@ -5,9 +5,9 @@
 //
 // Author: Tutors :)
 //
-#include "DataBase.hpp"
-#include "CommandLine.hpp"
 #include "Command.hpp"
+#include "CommandLine.hpp"
+#include "DataBase.hpp"
 #include <iostream>
 
 enum ReturnValues

@@ -2,6 +2,7 @@
 #define UTILS_HPP
 
 #include <string>
+#include <vector>
 
 class Utils
 {
@@ -22,6 +23,9 @@ class Utils
     // @return true, if conversion was successful, false otherwise
     //
     static bool decimalStringToInt(const std::string& str, unsigned& number);
+
+    static void stringToVector(std::string& string, std::vector<std::string>& vector);
+    static void stringToUpperCase(std::string& string);
 };
 
 #endif // UTILS_HPP
