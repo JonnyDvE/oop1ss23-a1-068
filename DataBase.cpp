@@ -24,7 +24,7 @@ bool DataBase::execute(Command command)
 }
 bool DataBase::parseFile()
 {
-  return false;
+  return true;
 }
 DataBase::~DataBase()
 {
