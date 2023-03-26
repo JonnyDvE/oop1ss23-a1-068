@@ -3,10 +3,11 @@
 //
 
 #include "DataBase.hpp"
-
+#include <iostream>
 
 DataBase::DataBase(std::string filename)
 {
+    std::cout << "test1";
     file_.open(filename, std::ifstream::in);
     active_user_ = nullptr;
 }
