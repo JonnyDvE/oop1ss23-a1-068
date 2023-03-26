@@ -34,5 +34,5 @@ DataBase::~DataBase()
 }
 bool DataBase::open()
 {
-  return file_.is_open();
+  return !file_.is_open();
 }
