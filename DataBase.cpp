@@ -7,9 +7,7 @@
 
 DataBase::DataBase(std::string filename)
 {
-
     file_.open(filename, std::ifstream::in);
-    std::cout << file_.is_open();
     active_user_ = nullptr;
 }
 PersonType DataBase::getUserLevel()
@@ -36,7 +34,7 @@ bool DataBase::open()
 {
   if(file_.is_open())
   {
-    return true;
+    return false;
   }
-  return false;
+  return true;
 }
