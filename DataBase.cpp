@@ -7,8 +7,9 @@
 
 DataBase::DataBase(std::string filename)
 {
-    std::cout << "test1";
+
     file_.open(filename, std::ifstream::in);
+    std::cout << file_.is_open();
     active_user_ = nullptr;
 }
 PersonType DataBase::getUserLevel()
