@@ -5,9 +5,10 @@
 #include "Professor.hpp"
 #include "Person.hpp"
 #include <string>
+#include <utility>
 
-Professor::Professor(const std::string& name, const std::string& surname, House house) :
-  Person{name, surname, house} {}
+Professor::Professor(const std::string& name, const std::string& surname, House house, Subject* subject) :
+  Person{name, surname, house}, subject_(subject) {}
 PersonType Professor::getType()
 {
   return PersonType::Professor;

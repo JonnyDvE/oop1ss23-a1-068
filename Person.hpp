@@ -30,6 +30,10 @@ public:
   virtual PersonType getType();
   static House getHouse(std::string name);
   std::string getHouseString(House house);
+  const std::string& getName() const;
+  const std::string& getSurname() const;
+  House getHouse1() const;
+  std::string getFullName() const;
 };
 
 #endif // PERSON_HPP

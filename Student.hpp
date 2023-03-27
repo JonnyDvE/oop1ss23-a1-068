@@ -11,5 +11,6 @@ class Student : public Person
 public:
   Student(const std::string& name, const std::string& surname, House house);
   PersonType getType() override;
+
 };
 #endif // STUDENT_HPP

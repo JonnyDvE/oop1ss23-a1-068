@@ -6,13 +6,13 @@ ASSIGNMENT    := a1
 
 BUILDDIR      := build
 SOURCES       := $(wildcard *.cpp)
-OBJECTS       := $(patsubst %,$(BUILDDIR)/%,${SOURCES:.cpp=.o})
+OBJECTS       := $(patsubst %,./$(BUILDDIR)/%,${SOURCES:.cpp=.o})
 
 .DEFAULT_GOAL := all
 .PHONY: reset clean bin lib all run test help
 
 prepare:
-	mkdir -p $(BUILDDIR)
+	mkdir -p ./$(BUILDDIR)
 
 $(BUILDDIR)/%.o: %.cpp
 	@echo "[\033[36mINFO\033[0m] Compiling object:" $<

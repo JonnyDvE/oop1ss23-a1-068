@@ -2,6 +2,7 @@
 // Created by student on 23.03.23.
 //
 #include <map>
+#include <sstream>
 #include <utility>
 
 #include "Person.hpp"
@@ -36,4 +37,22 @@ Person::Person(std::string  name, std::string  surname, House house) : name_(std
       return name;
     }
     return nullptr;
+  }
+  const std::string& Person::getName() const
+  {
+    return name_;
+  }
+  const std::string& Person::getSurname() const
+  {
+    return surname_;
+  }
+  House Person::getHouse1() const
+  {
+    return house_;
+  }
+  std::string Person::getFullName() const
+  {
+    std::stringstream ss;
+    ss << name_ << " " << surname_;
+    return ss.str();
   }

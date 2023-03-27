@@ -5,11 +5,15 @@
 #ifndef PROFESSOR_HPP
 #define PROFESSOR_HPP
 #include "Person.hpp"
+#include "Subject.hpp"
 #include <string>
 class Professor :public Person
 {
+private:
+  Subject* subject_;
 public:
-  Professor(const std::string& name, const std::string& surname, House house);
+  Professor(const std::string& name, const std::string& surname, House house, Subject* subject);
+  Professor(Professor &) = delete;
   PersonType getType() override;
 };
 #endif // PROFESSOR_HPP

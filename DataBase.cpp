@@ -3,6 +3,7 @@
 //
 
 #include "DataBase.hpp"
+#include "HardSubject.hpp"
 #include "Utils.hpp"
 #include <iostream>
 
@@ -28,34 +29,73 @@ bool DataBase::parseFile()
   std::string line;
   std::getline(file_, line);
   std::vector<std::string> vectorisedLine;
-  std::vector<std::string> vectorisedAssignments;
-  int counter = 0;
+  std::vector<Assignment*> assignments;
+  Utils::stringToVector(line, vectorisedLine, ';');
+  {
+    std::vector<std::string> vectorisedAssignments(vectorisedLine.begin() + 5, vectorisedLine.end());
+    for (auto &word : vectorisedAssignments)
+    {
+      assignments.push_back(new Assignment(word));
+    }
+  }
   while(!line.empty())
   {
+    std::getline(file_, line);
+    if(line.empty())
+      break ;
     Utils::stringToVector(line, vectorisedLine, ';');
-    if(counter == 0)
+//    for(auto &x : vectorisedLine)
+//    {
+//      std::cout << x << std::endl;
+//    }
+
+    std::string name = vectorisedLine.at(0);
+    std::string surname = vectorisedLine.at(1);
+    House house = Person::getHouse(vectorisedLine.at(2));
+    if(vectorisedLine.at(3).empty())
     {
-      vectorisedAssignments = vectorisedLine;
+      auto * student = new Student(name, surname, house);
+      students_.push_back(student);
+      std::vector<std::string>points (vectorisedLine.begin() + 5, vectorisedLine.end());
+      std::cout << student->getFullName();
+      int count = 0;
+      size_t assignment_count = 0;
+      unsigned point_in_unsigned;
+      for(auto &point : points)
+      {
+        std::cout << point << std::endl;
+        Utils::decimalStringToInt(point, point_in_unsigned);
+        if(assignment_count >= subjects_[count]->getAssignments().size())
+        {
+          count++;
+          assignment_count = 0;
+        }
+        if(!point.empty())
+        subjects_[count]->getAssignments().at(assignment_count)->addGrade(student, point_in_unsigned);
+      }
     }
     else
     {
-      std::string name = vectorisedLine.at(1);
-      std::string surname = vectorisedLine.at(2);
-      std::cout << name << " " << surname << std::endl;
-      House house = Person::getHouse(vectorisedLine.at(3));
-      if(vectorisedLine.at(4).empty())
+      auto * subject = new Subject(vectorisedLine.at(3), vectorisedLine.at(4) == "Hard");
+      auto * professor = new Professor(name, surname, house, subject);
+      professors_.push_back(professor);
+      subjects_.push_back(subject);
+      std::vector<Assignment*> current_assignments;
+      for(auto &x : vectorisedLine)
       {
-        auto * student = new Student(name, surname, house);
-        students_.push_back(student);
+        if(x == "X")
+        {
+          current_assignments.push_back(assignments.front());
+          if(assignments.size() != 1)
+            assignments.erase(assignments.begin());
+          else
+            assignments.clear();
+        }
       }
-      else
-      {
-        auto * professor = new Professor(name, surname, house);
-        professors_.push_back(professor);
-      }
-    }
+      subject->setAssignments(current_assignments);
 
-    counter++;
+    }
+    vectorisedLine.clear();
   }
   return true;
 }
