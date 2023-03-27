@@ -3,6 +3,7 @@
 //
 
 #include "DataBase.hpp"
+#include "Utils.hpp"
 #include <iostream>
 
 DataBase::DataBase(std::string filename)
@@ -24,6 +25,38 @@ bool DataBase::execute(Command command)
 }
 bool DataBase::parseFile()
 {
+  std::string line;
+  std::getline(file_, line);
+  std::vector<std::string> vectorisedLine;
+  std::vector<std::string> vectorisedAssignments;
+  int counter = 0;
+  while(!line.empty())
+  {
+    Utils::stringToVector(line, vectorisedLine, ';');
+    if(counter == 0)
+    {
+      vectorisedAssignments = vectorisedLine;
+    }
+    else
+    {
+      std::string name = vectorisedLine.at(1);
+      std::string surname = vectorisedLine.at(2);
+      std::cout << name << " " << surname << std::endl;
+      House house = Person::getHouse(vectorisedLine.at(3));
+      if(vectorisedLine.at(4).empty())
+      {
+        auto * student = new Student(name, surname, house);
+        students_.push_back(student);
+      }
+      else
+      {
+        auto * professor = new Professor(name, surname, house);
+        professors_.push_back(professor);
+      }
+    }
+
+    counter++;
+  }
   return true;
 }
 DataBase::~DataBase()

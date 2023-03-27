@@ -6,6 +6,7 @@
 #include <map>
 bool Command::isQuit()
 {
+  //TODO free mem
   return this->type_ == CommandType::QUIT;
 }
 Command::Command(std::vector<std::string> input)

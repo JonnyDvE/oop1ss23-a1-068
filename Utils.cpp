@@ -1,4 +1,5 @@
 #include "Utils.hpp"
+#include <iostream>
 
 //----------------------------------------------------------------------------------------------------------------------
 bool Utils::decimalStringToInt(const std::string& str, unsigned& number)
@@ -16,12 +17,12 @@ bool Utils::decimalStringToInt(const std::string& str, unsigned& number)
 
   return position == str.length();
 }
-void Utils::stringToVector(std::string& string, std::vector<std::string>& vector)
+void Utils::stringToVector(std::string string, std::vector<std::string>& vector, char delimiter)
 {
   size_t position = 0;
-  size_t position2 = 0;
+  size_t position2;
   std::string split_word;
-  while((position2 = string.find(' ', position)) != std::string::npos)
+  while((position2 = string.find(delimiter, position)) != std::string::npos)
   {
     split_word = string.substr(position, position2 - position);
     position = position2 + 1;

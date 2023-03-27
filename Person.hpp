@@ -22,11 +22,14 @@ private:
   std::string name_;
   std::string surname_;
   House house_;
+
 public:
   Person(std::string  name, std::string  surname, House house);
   Person(const Person&) = delete;
   virtual ~Person();
   virtual PersonType getType();
+  static House getHouse(std::string name);
+  std::string getHouseString(House house);
 };
 
 #endif // PERSON_HPP

@@ -24,7 +24,7 @@ class Utils
     //
     static bool decimalStringToInt(const std::string& str, unsigned& number);
 
-    static void stringToVector(std::string& string, std::vector<std::string>& vector);
+    static void stringToVector(std::string string, std::vector<std::string>& vector, char delimiter);
     static void stringToUpperCase(std::string& string);
 };
 
