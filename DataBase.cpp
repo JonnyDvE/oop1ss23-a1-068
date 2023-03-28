@@ -175,6 +175,7 @@ void DataBase::show()
         std::cout << "    " << assignment->getName() << " - " << assignment->getGrade(student) << std::endl;
       }
     }
+    std::cout << std::endl;
   }
   else
   {
