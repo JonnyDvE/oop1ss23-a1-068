@@ -135,7 +135,17 @@ bool DataBase::parseFile()
       for (const auto& string : vectorisedLine)
       {
         if(string == "X")
+        {
+          for(auto &subs : subjects_)
+          {
+            for (auto &assignmentsss : subs->getAssignments())
+            {
+              if(assignmentsss == assignments.at(counter))
+                return false;
+            }
+          }
           subject->addAssignments(assignments.at(counter));
+        }
         counter++;
       }
     }
