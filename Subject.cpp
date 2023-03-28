@@ -72,8 +72,14 @@ bool Subject::isHard() const
 {
   return is_hard;
 }
-Subject::~Subject() {}
-std::string Subject::difType()
+Subject::~Subject()
+{
+  for(auto assigns : assignments_)
+  {
+    delete assigns;
+  }
+}
+std::string Subject::difType() const
 {
   if(is_hard)
     return "Hard";

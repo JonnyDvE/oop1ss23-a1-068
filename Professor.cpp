@@ -17,3 +17,7 @@ Subject* Professor::getSubject() const
 {
   return subject_;
 }
+Professor::~Professor()
+{
+  delete subject_;
+}

@@ -14,6 +14,7 @@ private:
 public:
   Professor(const std::string& name, const std::string& surname, House house, Subject* subject);
   Professor(Professor &) = delete;
+  ~Professor() override;
   PersonType getType() override;
   Subject* getSubject() const;
 };

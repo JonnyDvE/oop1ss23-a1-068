@@ -26,13 +26,14 @@ public:
   SubjectType getType();
   Subject(std::string name, bool is_hard);
   Subject(Subject &) = delete;
+
   void addAssignments(Assignment* assignments);
   void setAssignments(const std::vector<Assignment*>& assignments);
   [[nodiscard]] const std::string& getName() const;
   const std::vector<Assignment*>& getAssignments() const;
   std::string getGradeString(int grade);
   virtual ~Subject();
-  std::string difType();
+  std::string difType() const;
 };
 
 #endif // OOP1SS23_A1_068_SUBJECT_HPP

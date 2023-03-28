@@ -138,10 +138,14 @@ bool DataBase::parseFile()
         {
           for(auto &subs : subjects_)
           {
-            for (auto &assignmentsss : subs->getAssignments())
+            for (auto &assigned_before : subs->getAssignments())
             {
-              if(assignmentsss == assignments.at(counter))
+              if(assigned_before == assignments.at(counter))
+              {
+
                 return false;
+              }
+
             }
           }
           subject->addAssignments(assignments.at(counter));
@@ -154,14 +158,6 @@ bool DataBase::parseFile()
 }
 DataBase::~DataBase()
 {
-  for(auto subs : subjects_)
-  {
-    for (auto assignments : subs->getAssignments())
-    {
-      delete assignments;
-    }
-    delete subs;
-  }
   for (auto studs :students_)
   {
     delete studs;
