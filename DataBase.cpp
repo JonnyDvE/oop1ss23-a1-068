@@ -41,11 +41,14 @@ bool DataBase::parseFile()
     std::getline(file_, line);
     if(line.empty())
       break ;
+    Utils::stringToVector(line, vectorisedLine, ';');
     std::string name = vectorisedLine.at(0);
     std::string surname = vectorisedLine.at(1);
     House house = Person::getHouse(vectorisedLine.at(2));
+
     if(isInDatabase(name, surname))
       return false ;
+
     if(vectorisedLine.at(3).empty())
     {
       auto * student = new Student(name, surname, house);
@@ -84,9 +87,10 @@ bool DataBase::parseFile()
             assignments.clear();
         }
       }
-      subject->setAssignments(current_assignments);
 
+      subject->setAssignments(current_assignments);
     }
+
     vectorisedLine.clear();
   }
   return true;
