@@ -309,7 +309,7 @@ std::string DataBase::professorLineBuilder(Professor* professor)
   ss << professor->getSubject()->getName() << ";" << professor->getSubject()->difType() << ";";
   for (auto subjects : subjects_)
   {
-    for (auto assignments : subjects->getAssignments())
+    for ([[maybe_unused]] auto assignments : subjects->getAssignments())
     {
       if(professor->getSubject() == subjects)
       {

@@ -4,9 +4,10 @@
 
 #include "CommandLine.hpp"
 #include "Command.hpp"
-#include <iostream>
-#include <string>
 #include "Utils.hpp"
+#include <iostream>
+#include <regex>
+#include <string>
 CommandLine::CommandLine() : user_level_(PersonType::Default), modification_mode_(false) {}
 CommandLine::~CommandLine() {}
 void CommandLine::setUserLevel(PersonType user_level)
@@ -33,6 +34,11 @@ Command CommandLine::readCommand()
   std::vector<std::string> vectorised_string;
   Utils::stringToVector(input, vectorised_string, ' ');
   Command command(vectorised_string);
+  if(vectorised_string.empty())
+  {
+    command.setType(CommandType::INVALID);
+    return command;
+  }
   switch (command.getType())
   {
     case CommandType::SHOW:
