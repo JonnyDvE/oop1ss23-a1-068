@@ -70,11 +70,10 @@ bool DataBase::execute(const Command& command)
       save(command.getParameters());
       return false;
     case CommandType::QUIT:
-
       break;
   }
 
-  return false;
+  return student_in_editing != nullptr;
 }
 bool DataBase::parseFile()
 {
@@ -145,17 +144,11 @@ bool DataBase::parseFile()
               {
                 delete assignments.at(internal);
               }
-
               internal++;
             }
             return false;
           }
           ass_taken.at(counter) = 'X';
-//          for (auto &c : ass_taken)
-//          {
-//            std::cout << c << " ";
-//          }
-//          std::cout << std::endl;
           subject->addAssignments(assignments.at(counter));
         }
         counter++;
