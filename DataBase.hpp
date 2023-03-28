@@ -21,6 +21,7 @@ private:
   std::vector<Professor*> professors_;
   std::vector<Subject*> subjects_;
   Person* active_user_;
+  bool isInDatabase(std::string name, std::string surname);
 public:
   explicit DataBase(std::string filename);
   DataBase(DataBase&) = delete;

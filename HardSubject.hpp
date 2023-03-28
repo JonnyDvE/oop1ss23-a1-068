@@ -8,6 +8,10 @@
 #include "Subject.hpp"
 class HardSubject : Subject
 {
+public:
+  HardSubject();
+private:
+
 };
 
 #endif // HARDSUBJECT_HPP

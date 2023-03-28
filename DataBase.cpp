@@ -31,39 +31,31 @@ bool DataBase::parseFile()
   std::vector<std::string> vectorisedLine;
   std::vector<Assignment*> assignments;
   Utils::stringToVector(line, vectorisedLine, ';');
+  std::vector<std::string> vectorisedAssignments(vectorisedLine.begin() + 5, vectorisedLine.end());
+  for (auto &word : vectorisedAssignments)
   {
-    std::vector<std::string> vectorisedAssignments(vectorisedLine.begin() + 5, vectorisedLine.end());
-    for (auto &word : vectorisedAssignments)
-    {
-      assignments.push_back(new Assignment(word));
-    }
+    assignments.push_back(new Assignment(word));
   }
   while(!line.empty())
   {
     std::getline(file_, line);
     if(line.empty())
       break ;
-    Utils::stringToVector(line, vectorisedLine, ';');
-//    for(auto &x : vectorisedLine)
-//    {
-//      std::cout << x << std::endl;
-//    }
-
     std::string name = vectorisedLine.at(0);
     std::string surname = vectorisedLine.at(1);
     House house = Person::getHouse(vectorisedLine.at(2));
+    if(isInDatabase(name, surname))
+      return false ;
     if(vectorisedLine.at(3).empty())
     {
       auto * student = new Student(name, surname, house);
       students_.push_back(student);
       std::vector<std::string>points (vectorisedLine.begin() + 5, vectorisedLine.end());
-      std::cout << student->getFullName();
       int count = 0;
       size_t assignment_count = 0;
       unsigned point_in_unsigned;
       for(auto &point : points)
       {
-        std::cout << point << std::endl;
         Utils::decimalStringToInt(point, point_in_unsigned);
         if(assignment_count >= subjects_[count]->getAssignments().size())
         {
@@ -71,7 +63,7 @@ bool DataBase::parseFile()
           assignment_count = 0;
         }
         if(!point.empty())
-        subjects_[count]->getAssignments().at(assignment_count)->addGrade(student, point_in_unsigned);
+          subjects_[count]->getAssignments().at(assignment_count)->addGrade(student, point_in_unsigned);
       }
     }
     else
@@ -106,4 +98,18 @@ DataBase::~DataBase()
 bool DataBase::open()
 {
   return file_.is_open();
+}
+bool DataBase::isInDatabase(std::string name, std::string surname)
+{
+  for(auto &prof : professors_)
+  {
+    if(prof->getName() == name && prof->getSurname() == surname)
+      return true ;
+  }
+  for(auto &student : students_)
+  {
+    if(student->getName() == name && student->getSurname() == surname)
+      return true ;
+  }
+  return false;
 }
