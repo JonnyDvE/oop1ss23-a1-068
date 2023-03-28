@@ -373,12 +373,4 @@ Subject* DataBase::subjectInData(std::string name)
   }
   return nullptr;
 }
-Assignment* DataBase::assignmentInData(std::string name)
-{
-  for(auto &assignments: )
-  {
-    if(subjects->getName() == name)
-      return subjects;
-  }
-  return nullptr;
-}
+
