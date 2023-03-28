@@ -174,7 +174,7 @@ void DataBase::addStudent(std::vector<std::string> args)
     return;
   }
   students_.push_back(new Student(args[0], args[1],Person::getHouse(args[3])));
-  std::cout << "Successfully added student: " << students_.at(students_.size())->getFullName() << std::endl;
+  std::cout << "Successfully added student: " << students_.at(students_.size() - 1)->getFullName() << std::endl;
 }
 bool DataBase::modifyStudent(std::vector<std::string> args)
 {
