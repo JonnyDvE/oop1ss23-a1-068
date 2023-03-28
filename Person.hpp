@@ -30,11 +30,11 @@ public:
   virtual ~Person();
   virtual PersonType getType();
   static House getHouse(std::string name);
-  std::string getHouseString(House house);
   const std::string& getName() const;
   const std::string& getSurname() const;
   House getHouse() const;
   std::string getFullName() const;
+  std::string getHouseString();
 };
 
 #endif // PERSON_HPP

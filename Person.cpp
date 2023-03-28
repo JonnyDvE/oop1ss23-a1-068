@@ -32,11 +32,11 @@ Person::Person(std::string  name, std::string  surname, House house) : name_(std
       return houseMap.find(name)->second;
     return House::Invalid;
   }
-  std::string Person::getHouseString(House house)
+  std::string Person::getHouseString()
   {
     for(const auto& [name, houseObj] : houseMap)
     {
-      if (houseObj == house)
+      if (houseObj == house_)
       return name;
     }
     return nullptr;

@@ -209,7 +209,7 @@ void DataBase::show()
   else
   {
     auto * student = dynamic_cast<Student*>(active_user_);
-    std::cout << "Student: " << active_user_->getFullName() << std::endl;
+    std::cout << "Student: " << active_user_->getFullName() << ", " << student->getHouseString()<<std::endl;
     for (auto subjects : subjects_)
     {
       std::cout << "  Subject: " << subjects->getName() << " - " << subjects->calculateGrade(student) << std::endl;
@@ -347,7 +347,7 @@ std::string DataBase::firstLineBuilder()
 std::string DataBase::professorLineBuilder(Professor* professor)
 {
   std::stringstream ss;
-  ss << professor->getName() << ";" << professor->getSurname() << ";" << professor->getHouseString(professor->getHouse())
+  ss << professor->getName() << ";" << professor->getSurname() << ";" << professor->getHouseString()
      << ";";
   ss << professor->getSubject()->getName() << ";" << professor->getSubject()->difType() << ";";
   for (auto subjects : subjects_)
@@ -368,7 +368,7 @@ std::string DataBase::professorLineBuilder(Professor* professor)
 std::string DataBase::studentLineBuilder(Student* student)
 {
   std::stringstream ss;
-  ss << student->getName() << ";" << student->getSurname() << ";" << student->getHouseString(student->getHouse())
+  ss << student->getName() << ";" << student->getSurname() << ";" << student->getHouseString()
      << ";;;";
 
   for (auto subjects : subjects_)
