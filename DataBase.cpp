@@ -88,8 +88,7 @@ bool DataBase::parseFile()
   {
     for (auto &assignment : assignments)
     {
-      std::string string = Utils::removeLeadingWhitespace(word);
-      if(assignment->getName() == word || string.empty())
+      if(assignment->getName() == word)
         return false;
     }
     assignments.push_back(new Assignment(word));
@@ -109,7 +108,7 @@ bool DataBase::parseFile()
       return false;
     if(subjectInData(vectorisedLine.at(3)) != nullptr)
       return false;
-    if(vectorisedLine.at(3).empty())
+    if(vectorisedLine.at(3).empty() && vectorisedLine.at(4).empty())
     {
       auto * student = new Student(name, surname, house);
       students_.push_back(student);
@@ -126,7 +125,8 @@ bool DataBase::parseFile()
     }
     else
     {
-
+      if (vectorisedLine.at(3).empty())
+        return false;
       auto * subject = new Subject(vectorisedLine.at(3), vectorisedLine.at(4) == "Hard");
       auto * professor = new Professor(name, surname, house, subject);
       professors_.push_back(professor);
