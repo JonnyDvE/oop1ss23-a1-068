@@ -21,6 +21,7 @@ private:
   std::vector<Assignment*> assignments_;
   bool is_hard;
 public:
+  bool isHard() const;
   std::string calculateGrade(Student* student);
   SubjectType getType();
   Subject(std::string name, bool is_hard);
@@ -29,6 +30,7 @@ public:
   void setAssignments(const std::vector<Assignment*>& assignments);
   [[nodiscard]] const std::string& getName() const;
   const std::vector<Assignment*>& getAssignments() const;
+  std::string getGradeString(int grade);
 };
 
 #endif // OOP1SS23_A1_068_SUBJECT_HPP

@@ -14,7 +14,8 @@ const std::map<std::string, House> houseMap
         {"Slytherin", House::Slytherin},
         {"Hufflepuff", House::Hufflepuff},
         {"Gryffindor", House::Gryffindor},
-        {"Ravenclaw", House::Ravenclaw}
+        {"Ravenclaw", House::Ravenclaw},
+        {"Invalid", House::Invalid}
     };
 
 Person::Person(std::string  name, std::string  surname, House house) : name_(std::move(name)), surname_(std::move(surname)),
@@ -27,7 +28,9 @@ Person::Person(std::string  name, std::string  surname, House house) : name_(std
   Person::~Person() {}
   House Person::getHouse(std::string name)
   {
-    return houseMap.find(name)->second;
+    if(houseMap.find(name) != houseMap.end())
+      return houseMap.find(name)->second;
+    return House::Invalid;
   }
   std::string Person::getHouseString(House house)
   {
@@ -46,7 +49,7 @@ Person::Person(std::string  name, std::string  surname, House house) : name_(std
   {
     return surname_;
   }
-  House Person::getHouse1() const
+  House Person::getHouse() const
   {
     return house_;
   }

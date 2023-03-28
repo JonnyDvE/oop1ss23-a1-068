@@ -10,7 +10,8 @@ enum class House
   Gryffindor,
   Ravenclaw,
   Hufflepuff,
-  Slytherin
+  Slytherin,
+  Invalid
 };
 enum class PersonType
 {
@@ -32,7 +33,7 @@ public:
   std::string getHouseString(House house);
   const std::string& getName() const;
   const std::string& getSurname() const;
-  House getHouse1() const;
+  House getHouse() const;
   std::string getFullName() const;
 };
 

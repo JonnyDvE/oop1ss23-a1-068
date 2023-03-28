@@ -12,7 +12,7 @@ OBJECTS       := $(patsubst %,./$(BUILDDIR)/%,${SOURCES:.cpp=.o})
 .PHONY: reset clean bin lib all run test help
 
 prepare:
-	mkdir -p ./$(BUILDDIR)
+	mkdir -p a=rwx ./$(BUILDDIR)
 
 $(BUILDDIR)/%.o: %.cpp
 	@echo "[\033[36mINFO\033[0m] Compiling object:" $<
@@ -28,7 +28,7 @@ clean:						## cleans up project folder
 	rm -f testreport.html
 	rm -rf ./$(BUILDDIR)
 	rm -rf result.html
-	rm -rf ./valgrind_logs
+	#rm -rf ./valgrind_logs
 
 reset:			## resets the config files
 	@echo "[\033[36mINFO\033[0m] Resetting csv files..."
@@ -47,9 +47,9 @@ run: all					## runs the project with default config
 
 test: reset all					## runs public testcases on the project
 	@echo "[\033[36mINFO\033[0m] Executing testrunner..."
-	chmod +x testrunner
+	chmod -R +x testrunner
 	./testrunner -c test.toml
-	@if [ -f ./.auto-upload.sh ]; then chmod +x .auto-upload.sh && ./.auto-upload.sh; fi;
+	#@if [ -f ./.auto-upload.sh ]; then chmod +x .auto-upload.sh && ./.auto-upload.sh; fi;
 
 help:						## prints the help text
 	@echo "Usage: make \033[36m<TARGET>\033[0m"

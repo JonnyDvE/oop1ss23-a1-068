@@ -21,7 +21,15 @@ private:
   std::vector<Professor*> professors_;
   std::vector<Subject*> subjects_;
   Person* active_user_;
-  bool isInDatabase(std::string name, std::string surname);
+  Student* student_in_editing;
+  Person* isInDatabase(std::string name, std::string surname);
+  void show();
+  void addStudent(std::vector<std::string> args);
+  bool modifyStudent(std::vector<std::string> args);
+  void addGrade(std::vector<std::string> args);
+  void removeGrade(std::vector<std::string> args);
+  void back();
+  void save(std::vector<std::string> args);
 public:
   explicit DataBase(std::string filename);
   DataBase(DataBase&) = delete;
@@ -32,8 +40,6 @@ public:
   bool parseFile();
   bool open();
 
-
-
-
+  std::string parseSubject(std::vector<std::string> vector);
 };
 #endif // DATABASE_HPP

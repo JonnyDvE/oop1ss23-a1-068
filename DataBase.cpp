@@ -6,6 +6,8 @@
 #include "HardSubject.hpp"
 #include "Utils.hpp"
 #include <iostream>
+#include <sstream>
+#include <utility>
 
 DataBase::DataBase(std::string filename)
 {
@@ -18,11 +20,45 @@ PersonType DataBase::getUserLevel()
 }
 bool DataBase::login(std::string username)
 {
+  std::vector<std::string> vector;
+  Utils::stringToVector(std::move(username), vector, ' ');
+  if (vector.size() == 2)
+  {
+    active_user_ = isInDatabase(vector.at(0), vector.at(1));
+    if(active_user_ != nullptr)
+      return true;
+  }
   return false;
 }
 bool DataBase::execute(Command command)
 {
-  return false;
+  bool modification_mode = false;
+  switch (command.getType())
+  {
+    case CommandType::SHOW:
+      show();
+      return false;
+    case CommandType::INVALID:
+      break;
+    case CommandType::ADDSTUDENT:
+      addStudent(command.getParameters());
+      return false;
+    case CommandType::MODIFYSTUDENT:
+      return modifyStudent(command.getParameters());
+    case CommandType::ADDGRADE:
+      addGrade(command.getParameters());
+      return true;
+    case CommandType::REMOVEGRADE:
+      removeGrade(command.getParameters());
+    return true;
+    case CommandType::BACK:
+      back();
+    return false;
+    case CommandType::SAVE:
+      break;
+    case CommandType::QUIT:
+      break;
+  }
 }
 bool DataBase::parseFile()
 {
@@ -38,6 +74,7 @@ bool DataBase::parseFile()
   }
   while(!line.empty())
   {
+    vectorisedLine.clear();
     std::getline(file_, line);
     if(line.empty())
       break ;
@@ -46,7 +83,7 @@ bool DataBase::parseFile()
     std::string surname = vectorisedLine.at(1);
     House house = Person::getHouse(vectorisedLine.at(2));
 
-    if(isInDatabase(name, surname))
+    if(isInDatabase(name, surname) != nullptr)
       return false ;
 
     if(vectorisedLine.at(3).empty())
@@ -54,19 +91,14 @@ bool DataBase::parseFile()
       auto * student = new Student(name, surname, house);
       students_.push_back(student);
       std::vector<std::string>points (vectorisedLine.begin() + 5, vectorisedLine.end());
-      int count = 0;
       size_t assignment_count = 0;
       unsigned point_in_unsigned;
       for(auto &point : points)
       {
         Utils::decimalStringToInt(point, point_in_unsigned);
-        if(assignment_count >= subjects_[count]->getAssignments().size())
-        {
-          count++;
-          assignment_count = 0;
-        }
         if(!point.empty())
-          subjects_[count]->getAssignments().at(assignment_count)->addGrade(student, point_in_unsigned);
+          assignments.at(assignment_count)->addGrade(student, point_in_unsigned);
+        assignment_count++;
       }
     }
     else
@@ -75,23 +107,14 @@ bool DataBase::parseFile()
       auto * professor = new Professor(name, surname, house, subject);
       professors_.push_back(professor);
       subjects_.push_back(subject);
-      std::vector<Assignment*> current_assignments;
-      for(auto &x : vectorisedLine)
+      auto counter = -5;
+      for (auto string : vectorisedLine)
       {
-        if(x == "X")
-        {
-          current_assignments.push_back(assignments.front());
-          if(assignments.size() != 1)
-            assignments.erase(assignments.begin());
-          else
-            assignments.clear();
-        }
+        if(string == "X")
+          subject->addAssignments(assignments.at(counter));
+        counter++;
       }
-
-      subject->setAssignments(current_assignments);
     }
-
-    vectorisedLine.clear();
   }
   return true;
 }
@@ -103,17 +126,125 @@ bool DataBase::open()
 {
   return file_.is_open();
 }
-bool DataBase::isInDatabase(std::string name, std::string surname)
+Person* DataBase::isInDatabase(std::string name, std::string surname)
 {
   for(auto &prof : professors_)
   {
     if(prof->getName() == name && prof->getSurname() == surname)
-      return true ;
+      return prof ;
   }
   for(auto &student : students_)
   {
     if(student->getName() == name && student->getSurname() == surname)
-      return true ;
+      return student ;
   }
-  return false;
+  return nullptr;
+}
+void DataBase::show()
+{
+  std::cout << std::endl;
+  if(active_user_->getType() == PersonType::Professor)
+  {
+    auto * professor = dynamic_cast<Professor*>(active_user_);
+    std::cout << "Professor: " << active_user_->getFullName() << std::endl;
+    std::cout << "Subject: " << professor->getSubject()->getName() << std::endl;
+    for (auto student : students_)
+    {
+      std::cout << std::endl;
+      std::cout << "  Student: " << student->getFullName() << " - " << professor->getSubject()->calculateGrade(student)
+                << std::endl;
+      for(auto assignment : professor->getSubject()->getAssignments())
+      {
+        std::cout << "    " << assignment->getName() << " - " << assignment->getGrade(student) << std::endl;
+      }
+    }
+  }
+  std::cout << std::endl;
+}
+void DataBase::addStudent(std::vector<std::string> args)
+{
+  if(isInDatabase(args[0], args[1]) != nullptr)
+  {
+    std::cout << "[ERROR] This user already exists!" << std::endl;
+    return;
+  }
+  if(Person::getHouse(args[2]) == House::Invalid)
+  {
+    std::cout << "[ERROR] Invalid house!" << std::endl;
+    return;
+  }
+  students_.push_back(new Student(args[0], args[1],Person::getHouse(args[3])));
+  std::cout << "Successfully added student: " << students_.at(students_.size())->getFullName() << std::endl;
+}
+bool DataBase::modifyStudent(std::vector<std::string> args)
+{
+  student_in_editing = dynamic_cast<Student*>(isInDatabase(args[0], args[1]));
+  if(student_in_editing == nullptr)
+  {
+    std::cout << "[ERROR] This student does not exist!" << std::endl;
+    return false;
+  }
+  std::cout << "Now modifying student: " << student_in_editing->getFullName() << std::endl;
+  return true;
+}
+void DataBase::addGrade(std::vector<std::string> args)
+{
+  std::string name = parseSubject(std::vector<std::string>(args.begin(), args.end() -1));
+  name.pop_back();
+  for(auto &subject : subjects_)
+  {
+    for (auto &assignment : subject->getAssignments())
+    {
+      if(assignment->getName() == name && dynamic_cast<Professor*>(active_user_)->getSubject() == subject)
+      {
+        unsigned grade;
+        if(Utils::decimalStringToInt(args.at(args.size()-1), grade) && grade <= 100 && grade >= 0)
+        {
+          assignment->changeGrade(student_in_editing, grade);
+          std::cout << "Grade was entered successfully!" << std::endl;
+          return ;
+        }
+        else
+        {
+          std::cout << "[ERROR] Invalid grade!" << std::endl;
+          return;
+        }
+      }
+    }
+  }
+  std::cout << "[ERROR] Grade cannot be entered!" << std::endl;
+}
+std::string DataBase::parseSubject(std::vector<std::string> vector)
+{
+  std::stringstream ss;
+  for(auto &string : vector)
+  {
+    ss << string << " ";
+  }
+  return ss.str();
+}
+void DataBase::removeGrade(std::vector<std::string> args)
+{
+  std::string name = parseSubject(std::vector<std::string>(args.begin(), args.end()));
+  name.pop_back();
+  for(auto &subject : subjects_)
+  {
+    for (auto &assignment : subject->getAssignments())
+    {
+      if(assignment->getName() == name && dynamic_cast<Professor*>(active_user_)->getSubject() == subject)
+      {
+        if(assignment->getGradeAsInt(student_in_editing) != -1)
+        {
+          assignment->removeGrade(student_in_editing);
+          std::cout << "Grade was removed successfully!" << std::endl;
+          return;
+        }
+      }
+    }
+  }
+  std::cout << "[ERROR] Grade cannot be removed!" << std::endl;
+}
+void DataBase::back()
+{
+  student_in_editing = nullptr;
 }

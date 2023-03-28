@@ -13,3 +13,7 @@ PersonType Professor::getType()
 {
   return PersonType::Professor;
 }
+Subject* Professor::getSubject() const
+{
+  return subject_;
+}

@@ -11,10 +11,13 @@ class Assignment
 {
 public:
   Assignment(std::string name);
+  Assignment(Assignment & ) = delete;
   [[nodiscard]] const std::string& getName() const;
   void addGrade(Student* student, unsigned points);
   void changeGrade(Student* student, unsigned points);
   void removeGrade(Student* student);
+  int getGradeAsInt(Student* student);
+  std::string getGrade(Student* student);
 
 private:
   std::string name_;

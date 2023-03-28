@@ -15,5 +15,6 @@ public:
   Professor(const std::string& name, const std::string& surname, House house, Subject* subject);
   Professor(Professor &) = delete;
   PersonType getType() override;
+  Subject* getSubject() const;
 };
 #endif // PROFESSOR_HPP

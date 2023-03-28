@@ -71,6 +71,7 @@ int main(int argc, char* argv[])
   while (true)
   {
     Command command = cli.readCommand();
+
     if (command.isQuit())
     {
       break;
