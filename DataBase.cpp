@@ -8,6 +8,20 @@
 #include <sstream>
 #include <utility>
 
+const std::string ERROR_CODES[]{"[ERROR] Invalid command or invalid number of parameters!",
+                  "[ERROR] As a student, you are not allowed to do this!",
+                  "[ERROR] You can only do this in modification mode!",
+                  "[ERROR] You cannot do this in modification mode!",
+                  "[ERROR] This user already exists!",
+                  "[ERROR] Invalid house!",
+                  "[ERROR] This student does not exist!",
+                  "[ERROR] Grade cannot be entered!",
+                  "[ERROR] Invalid grade!",
+                  "[ERROR] Grade cannot be removed!",
+                  "[ERROR] File cannot be opened!"};
+enum ERROR_CODE{INVALID, STUDENT, ONLYMOD, NOTMOD, USEREXISTS, INVALIDHOUSE, USERNOEXISTS, CANTGRADE, INVALIDGRADE,
+  CANTREMOVE, CANTOPENFILE};
+
 DataBase::DataBase(std::string filename)
 {
     file_.open(filename, std::ifstream::in);
@@ -203,12 +217,12 @@ void DataBase::addStudent(std::vector<std::string> args)
 {
   if(isInDatabase(args[0], args[1]) != nullptr)
   {
-    std::cout << "[ERROR] This user already exists!" << std::endl;
+    std::cout << ERROR_CODES[USEREXISTS] << std::endl;
     return;
   }
   if(Person::getHouse(args[2]) == House::Invalid)
   {
-    std::cout << "[ERROR] Invalid house!" << std::endl;
+    std::cout << ERROR_CODES[INVALIDHOUSE] << std::endl;
     return;
   }
   students_.push_back(new Student(args[0], args[1],Person::getHouse(args[2])));
@@ -219,7 +233,7 @@ bool DataBase::modifyStudent(std::vector<std::string> args)
   student_in_editing = dynamic_cast<Student*>(isInDatabase(args[0], args[1]));
   if(student_in_editing == nullptr)
   {
-    std::cout << "[ERROR] This student does not exist!" << std::endl;
+    std::cout << ERROR_CODES[USERNOEXISTS] << std::endl;
     return false;
   }
   std::cout << "Now modifying student: " << student_in_editing->getFullName() << std::endl;
@@ -244,13 +258,13 @@ void DataBase::addGrade(std::vector<std::string> args)
         }
         else
         {
-          std::cout << "[ERROR] Invalid grade!" << std::endl;
+          std::cout << ERROR_CODES[INVALIDGRADE] << std::endl;
           return;
         }
       }
     }
   }
-  std::cout << "[ERROR] Grade cannot be entered!" << std::endl;
+  std::cout << ERROR_CODES[CANTGRADE] << std::endl;
 }
 std::string DataBase::parseSubject(std::vector<std::string> vector)
 {
@@ -280,7 +294,7 @@ void DataBase::removeGrade(std::vector<std::string> args)
       }
     }
   }
-  std::cout << "[ERROR] Grade cannot be removed!" << std::endl;
+  std::cout << ERROR_CODES[CANTREMOVE] << std::endl;
 }
 void DataBase::back()
 {
@@ -304,7 +318,7 @@ void DataBase::save(std::vector<std::string> args)
     std::cout << "File saved successfully!" << std::endl;
     return ;
   }
-    std::cout << "[ERROR] File cannot be opened!" << std::endl;
+    std::cout << ERROR_CODES[CANTOPENFILE] << std::endl;
 
 }
 std::string DataBase::firstLineBuilder()
