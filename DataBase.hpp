@@ -23,6 +23,7 @@ private:
   Person* active_user_;
   Student* student_in_editing;
   Person* isInDatabase(std::string name, std::string surname);
+  Subject* subjectInData(std::string name);
   void show();
   void addStudent(std::vector<std::string> args);
   bool modifyStudent(std::vector<std::string> args);

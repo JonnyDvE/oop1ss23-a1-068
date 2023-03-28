@@ -72,6 +72,11 @@ bool DataBase::parseFile()
   std::vector<std::string> vectorisedAssignments(vectorisedLine.begin() + 5, vectorisedLine.end());
   for (auto &word : vectorisedAssignments)
   {
+    for (auto &assignments : assignments)
+    {
+      if(assignments->getName() == word)
+        return false;
+    }
     assignments.push_back(new Assignment(word));
   }
   while(!line.empty())
@@ -87,24 +92,26 @@ bool DataBase::parseFile()
 
     if(isInDatabase(name, surname) != nullptr)
       return false;
-
-//    if(vectorisedLine.at(3).empty())
-//    {
-//      auto * student = new Student(name, surname, house);
-//      students_.push_back(student);
-//      std::vector<std::string>points (vectorisedLine.begin() + 5, vectorisedLine.end());
-//      size_t assignment_count = 0;
-//      unsigned point_in_unsigned;
-//      for(auto &point : points)
-//      {
-//        Utils::decimalStringToInt(point, point_in_unsigned);
-//        if(!point.empty())
-//          assignments.at(assignment_count)->addGrade(student, point_in_unsigned);
-//        assignment_count++;
-//      }
-//    }
-//    else
+    if(subjectInData(vectorisedLine.at(3)) != nullptr)
+      return false;
+    if(vectorisedLine.at(3).empty())
     {
+      auto * student = new Student(name, surname, house);
+      students_.push_back(student);
+      std::vector<std::string>points (vectorisedLine.begin() + 5, vectorisedLine.end());
+      size_t assignment_count = 0;
+      unsigned point_in_unsigned;
+      for(auto &point : points)
+      {
+        Utils::decimalStringToInt(point, point_in_unsigned);
+        if(!point.empty())
+          assignments.at(assignment_count)->addGrade(student, point_in_unsigned);
+        assignment_count++;
+      }
+    }
+    else
+    {
+
       auto * subject = new Subject(vectorisedLine.at(3), vectorisedLine.at(4) == "Hard");
       auto * professor = new Professor(name, surname, house, subject);
       professors_.push_back(professor);
@@ -356,4 +363,22 @@ std::string DataBase::studentLineBuilder(Student* student)
   std::string output = ss.str();
   output.pop_back();
   return  output;
+}
+Subject* DataBase::subjectInData(std::string name)
+{
+  for(auto &subjects: subjects_)
+  {
+    if(subjects->getName() == name)
+      return subjects;
+  }
+  return nullptr;
+}
+Assignment* DataBase::assignmentInData(std::string name)
+{
+  for(auto &assignments: )
+  {
+    if(subjects->getName() == name)
+      return subjects;
+  }
+  return nullptr;
 }
