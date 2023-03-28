@@ -22,7 +22,7 @@ const std::string ERROR_CODES[]{"[ERROR] Invalid command or invalid number of pa
 enum ERROR_CODE{INVALID, STUDENT, ONLYMOD, NOTMOD, USEREXISTS, INVALIDHOUSE, USERNOEXISTS, CANTGRADE, INVALIDGRADE,
   CANTREMOVE, CANTOPENFILE};
 
-DataBase::DataBase(std::string filename)
+DataBase::DataBase(const std::string& filename)
 {
     file_.open(filename, std::ifstream::in);
     active_user_ = nullptr;
@@ -43,7 +43,7 @@ bool DataBase::login(std::string username)
   }
   return false;
 }
-bool DataBase::execute(Command command)
+bool DataBase::execute(const Command& command)
 {
   switch (command.getType())
   {
@@ -78,6 +78,7 @@ bool DataBase::execute(Command command)
 }
 bool DataBase::parseFile()
 {
+  return false;
   std::string line;
   std::getline(file_, line);
   std::vector<std::string> vectorisedLine;
@@ -131,7 +132,7 @@ bool DataBase::parseFile()
       professors_.push_back(professor);
       subjects_.push_back(subject);
       auto counter = -5;
-      for (auto string : vectorisedLine)
+      for (const auto& string : vectorisedLine)
       {
         if(string == "X")
           subject->addAssignments(assignments.at(counter));
@@ -164,7 +165,7 @@ bool DataBase::open()
 {
   return file_.is_open();
 }
-Person* DataBase::isInDatabase(std::string name, std::string surname)
+Person* DataBase::isInDatabase(const std::string& name, const std::string& surname)
 {
   for(auto &prof : professors_)
   {

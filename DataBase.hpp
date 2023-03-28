@@ -21,8 +21,8 @@ private:
   std::vector<Professor*> professors_;
   std::vector<Subject*> subjects_;
   Person* active_user_;
-  Student* student_in_editing;
-  Person* isInDatabase(std::string name, std::string surname);
+  Student* student_in_editing{};
+  Person* isInDatabase(const std::string& name, const std::string& surname);
   Subject* subjectInData(std::string name);
   void show();
   void addStudent(std::vector<std::string> args);
@@ -32,16 +32,16 @@ private:
   void back();
   void save(std::vector<std::string> args);
 public:
-  explicit DataBase(std::string filename);
+  explicit DataBase(const std::string& filename);
   DataBase(DataBase&) = delete;
   ~DataBase();
   PersonType getUserLevel();
   bool login(std::string username);
-  bool execute(Command command);
+  bool execute(const Command& command);
   bool parseFile();
   bool open();
 
-  std::string parseSubject(std::vector<std::string> vector);
+  static std::string parseSubject(std::vector<std::string> vector);
   std::string firstLineBuilder();
   std::string studentLineBuilder( Student* student);
   std::string professorLineBuilder(Professor* professor);
