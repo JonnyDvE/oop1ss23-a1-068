@@ -86,9 +86,9 @@ bool DataBase::parseFile()
   std::vector<std::string> vectorisedAssignments(vectorisedLine.begin() + 5, vectorisedLine.end());
   for (auto &word : vectorisedAssignments)
   {
-    for (auto &assignments : assignments)
+    for (auto &assignment : assignments)
     {
-      if(assignments->getName() == word)
+      if(assignment->getName() == word)
         return false;
     }
     assignments.push_back(new Assignment(word));
