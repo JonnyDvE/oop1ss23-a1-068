@@ -88,22 +88,22 @@ bool DataBase::parseFile()
     if(isInDatabase(name, surname) != nullptr)
       return false;
 
-    if(vectorisedLine.at(3).empty())
-    {
-      auto * student = new Student(name, surname, house);
-      students_.push_back(student);
-      std::vector<std::string>points (vectorisedLine.begin() + 5, vectorisedLine.end());
-      size_t assignment_count = 0;
-      unsigned point_in_unsigned;
-      for(auto &point : points)
-      {
-        Utils::decimalStringToInt(point, point_in_unsigned);
-        if(!point.empty())
-          assignments.at(assignment_count)->addGrade(student, point_in_unsigned);
-        assignment_count++;
-      }
-    }
-    else
+//    if(vectorisedLine.at(3).empty())
+//    {
+//      auto * student = new Student(name, surname, house);
+//      students_.push_back(student);
+//      std::vector<std::string>points (vectorisedLine.begin() + 5, vectorisedLine.end());
+//      size_t assignment_count = 0;
+//      unsigned point_in_unsigned;
+//      for(auto &point : points)
+//      {
+//        Utils::decimalStringToInt(point, point_in_unsigned);
+//        if(!point.empty())
+//          assignments.at(assignment_count)->addGrade(student, point_in_unsigned);
+//        assignment_count++;
+//      }
+//    }
+//    else
     {
       auto * subject = new Subject(vectorisedLine.at(3), vectorisedLine.at(4) == "Hard");
       auto * professor = new Professor(name, surname, house, subject);
