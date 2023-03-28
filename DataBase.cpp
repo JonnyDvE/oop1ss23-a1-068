@@ -78,12 +78,13 @@ bool DataBase::execute(const Command& command)
 }
 bool DataBase::parseFile()
 {
-  return false;
   std::string line;
   std::getline(file_, line);
   std::vector<std::string> vectorisedLine;
   std::vector<Assignment*> assignments;
   Utils::stringToVector(line, vectorisedLine, ';');
+  if (vectorisedLine.size() < 5)
+    return false;
   std::vector<std::string> vectorisedAssignments(vectorisedLine.begin() + 5, vectorisedLine.end());
   for (auto &word : vectorisedAssignments)
   {
