@@ -187,9 +187,9 @@ void DataBase::show()
       {
         std::cout << "    " << assignment->getName() << " - " << assignment->getGrade(student) << std::endl;
       }
+      std::cout << std::endl;
     }
   }
-  std::cout << std::endl;
 }
 void DataBase::addStudent(std::vector<std::string> args)
 {
