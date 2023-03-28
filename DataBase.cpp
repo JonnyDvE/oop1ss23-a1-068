@@ -176,6 +176,19 @@ void DataBase::show()
       }
     }
   }
+  else
+  {
+    auto * student = dynamic_cast<Student*>(active_user_);
+    std::cout << "Student: " << active_user_->getFullName() << std::endl;
+    for (auto subjects : subjects_)
+    {
+      std::cout << "  Subject: " << subjects->getName() << " - " << subjects->calculateGrade(student) << std::endl;
+      for (auto assignment : subjects->getAssignments())
+      {
+        std::cout << "    " << assignment->getName() << " - " << assignment->getGrade(student) << std::endl;
+      }
+    }
+  }
   std::cout << std::endl;
 }
 void DataBase::addStudent(std::vector<std::string> args)
