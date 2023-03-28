@@ -32,7 +32,6 @@ bool DataBase::login(std::string username)
 }
 bool DataBase::execute(Command command)
 {
-  bool modification_mode = false;
   switch (command.getType())
   {
     case CommandType::SHOW:
@@ -59,6 +58,7 @@ bool DataBase::execute(Command command)
     case CommandType::QUIT:
       break;
   }
+  return false;
 }
 bool DataBase::parseFile()
 {
@@ -84,7 +84,7 @@ bool DataBase::parseFile()
     House house = Person::getHouse(vectorisedLine.at(2));
 
     if(isInDatabase(name, surname) != nullptr)
-      return false ;
+      return false;
 
     if(vectorisedLine.at(3).empty())
     {

@@ -46,6 +46,8 @@ std::string Subject::calculateGrade(Student* student)
   }
   return getGradeString(total/(assignments_.size()));
 }
+
+#pragma clang diagnostic ignored "-Wgnu-case-range"
 std::string Subject::getGradeString(int grade)
 {
   switch (grade)
