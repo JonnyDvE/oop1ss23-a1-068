@@ -93,6 +93,7 @@ bool DataBase::parseFile()
     }
     assignments.push_back(new Assignment(word));
   }
+  std::vector<char> ass_taken(vectorisedLine.size() - 5, ' ');
   while(!line.empty())
   {
     vectorisedLine.clear();
@@ -103,7 +104,6 @@ bool DataBase::parseFile()
     std::string name = vectorisedLine.at(0);
     std::string surname = vectorisedLine.at(1);
     House house = Person::getHouse(vectorisedLine.at(2));
-
     if(isInDatabase(name, surname) != nullptr)
       return false;
     if(subjectInData(vectorisedLine.at(3)) != nullptr)
@@ -136,18 +136,26 @@ bool DataBase::parseFile()
       {
         if(string == "X")
         {
-          for(auto &subs : subjects_)
+          if(ass_taken.at(counter) == 'X')
           {
-            for (auto &assigned_before : subs->getAssignments())
+            int internal = 0;
+            for(auto &del : ass_taken)
             {
-              if(assigned_before == assignments.at(counter))
+              if(del == ' ')
               {
-
-                return false;
+                delete assignments.at(internal);
               }
 
+              internal++;
             }
+            return false;
           }
+          ass_taken.at(counter) = 'X';
+//          for (auto &c : ass_taken)
+//          {
+//            std::cout << c << " ";
+//          }
+//          std::cout << std::endl;
           subject->addAssignments(assignments.at(counter));
         }
         counter++;
