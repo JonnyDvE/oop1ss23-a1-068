@@ -83,7 +83,7 @@ bool DataBase::parseFile()
   std::vector<std::string> vectorisedLine;
   std::vector<Assignment*> assignments;
   Utils::stringToVector(line, vectorisedLine, ';');
-  if (vectorisedLine.size() < 40)
+  if (vectorisedLine.size() < 30)
     return false;
   std::vector<std::string> vectorisedAssignments(vectorisedLine.begin() + 5, vectorisedLine.end());
   for (auto &word : vectorisedAssignments)
