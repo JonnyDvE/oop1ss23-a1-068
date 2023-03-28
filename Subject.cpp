@@ -72,3 +72,10 @@ bool Subject::isHard() const
 {
   return is_hard;
 }
+Subject::~Subject() {}
+std::string Subject::difType()
+{
+  if(is_hard)
+    return "Hard";
+  return "Easy";
+}

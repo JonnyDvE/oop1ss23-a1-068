@@ -38,11 +38,6 @@ int main(int argc, char* argv[])
     std::cout << "[ERROR] Wrong number of parameters!" << std::endl;
     return WRONG_NUMBER_OF_PARAMETERS;
   }
-  //debugging
-
-
-
-//Ende Debugging
   DataBase db(argv[1]);
   if (!db.open())
   {

@@ -31,6 +31,8 @@ public:
   [[nodiscard]] const std::string& getName() const;
   const std::vector<Assignment*>& getAssignments() const;
   std::string getGradeString(int grade);
+  virtual ~Subject();
+  std::string difType();
 };
 
 #endif // OOP1SS23_A1_068_SUBJECT_HPP

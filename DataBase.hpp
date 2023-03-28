@@ -41,5 +41,8 @@ public:
   bool open();
 
   std::string parseSubject(std::vector<std::string> vector);
+  std::string firstLineBuilder();
+  std::string studentLineBuilder( Student* student);
+  std::string professorLineBuilder(Professor* professor);
 };
 #endif // DATABASE_HPP

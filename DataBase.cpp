@@ -3,7 +3,6 @@
 //
 
 #include "DataBase.hpp"
-#include "HardSubject.hpp"
 #include "Utils.hpp"
 #include <iostream>
 #include <sstream>
@@ -54,10 +53,13 @@ bool DataBase::execute(Command command)
       back();
     return false;
     case CommandType::SAVE:
-      break;
+      save(command.getParameters());
+      return false;
     case CommandType::QUIT:
+
       break;
   }
+
   return false;
 }
 bool DataBase::parseFile()
@@ -120,7 +122,22 @@ bool DataBase::parseFile()
 }
 DataBase::~DataBase()
 {
-
+  for(auto subs : subjects_)
+  {
+    for (auto assignments : subs->getAssignments())
+    {
+      delete assignments;
+    }
+    delete subs;
+  }
+  for (auto studs :students_)
+  {
+    delete studs;
+  }
+  for(auto profs : professors_)
+  {
+    delete profs;
+  }
 }
 bool DataBase::open()
 {
@@ -173,7 +190,7 @@ void DataBase::addStudent(std::vector<std::string> args)
     std::cout << "[ERROR] Invalid house!" << std::endl;
     return;
   }
-  students_.push_back(new Student(args[0], args[1],Person::getHouse(args[3])));
+  students_.push_back(new Student(args[0], args[1],Person::getHouse(args[2])));
   std::cout << "Successfully added student: " << students_.at(students_.size() - 1)->getFullName() << std::endl;
 }
 bool DataBase::modifyStudent(std::vector<std::string> args)
@@ -247,4 +264,82 @@ void DataBase::removeGrade(std::vector<std::string> args)
 void DataBase::back()
 {
   student_in_editing = nullptr;
+}
+void DataBase::save(std::vector<std::string> args)
+{
+  std::ofstream output(args.at(0));
+  if(output.is_open())
+  {
+    output << firstLineBuilder() << std::endl;
+    for (auto prof : professors_)
+    {
+      output << professorLineBuilder(prof) << std::endl;
+    }
+    for (auto stud : students_)
+    {
+      output << studentLineBuilder(stud) << std::endl;
+    }
+    output.close();
+    std::cout << "File saved successfully!" << std::endl;
+    return ;
+  }
+    std::cout << "[ERROR] File cannot be opened!" << std::endl;
+
+}
+std::string DataBase::firstLineBuilder()
+{
+  std::stringstream ss;
+  ss << "Name;Surname;House;Subject;Difficulty;";
+  for (auto subjects : subjects_)
+  {
+    for (auto assignments : subjects->getAssignments())
+    {
+      ss << assignments->getName() << ";";
+    }
+  }
+  std::string output = ss.str();
+  output.pop_back();
+  return output;
+}
+std::string DataBase::professorLineBuilder(Professor* professor)
+{
+  std::stringstream ss;
+  ss << professor->getName() << ";" << professor->getSurname() << ";" << professor->getHouseString(professor->getHouse())
+     << ";";
+  ss << professor->getSubject()->getName() << ";" << professor->getSubject()->difType() << ";";
+  for (auto subjects : subjects_)
+  {
+    for (auto assignments : subjects->getAssignments())
+    {
+      if(professor->getSubject() == subjects)
+      {
+        ss << "X";
+      }
+      ss << ";";
+    }
+  }
+  std::string output = ss.str();
+  output.pop_back();
+  return  output;
+}
+std::string DataBase::studentLineBuilder(Student* student)
+{
+  std::stringstream ss;
+  ss << student->getName() << ";" << student->getSurname() << ";" << student->getHouseString(student->getHouse())
+     << ";;;";
+
+  for (auto subjects : subjects_)
+  {
+    for (auto assignments : subjects->getAssignments())
+    {
+      if(assignments->getGradeAsInt(student) >= 0)
+      {
+        ss << assignments->getGradeAsInt(student);
+      }
+      ss << ";";
+    }
+  }
+  std::string output = ss.str();
+  output.pop_back();
+  return  output;
 }
