@@ -88,7 +88,8 @@ bool DataBase::parseFile()
   {
     for (auto &assignment : assignments)
     {
-      if(assignment->getName() == word || word.empty())
+      std::string string = Utils::removeLeadingWhitespace(word);
+      if(assignment->getName() == word || string.empty())
         return false;
     }
     assignments.push_back(new Assignment(word));
