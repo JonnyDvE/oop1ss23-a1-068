@@ -60,3 +60,4 @@ bool Command::isModificationModeOnly() const
 {
   return is_modification_mode_only_;
 }
+Command::Command(CommandType type) : type_(type){};

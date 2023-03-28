@@ -29,6 +29,7 @@ private:
   std::vector<std::string> parameters_;
 public:
   Command(std::vector<std::string> input);
+  Command(CommandType type);
   bool isQuit();
   CommandType getCommandType(std::string);
   CommandType getType() const;

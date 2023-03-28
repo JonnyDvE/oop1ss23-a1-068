@@ -40,3 +40,10 @@ void Utils::stringToUpperCase(std::string& string)
     }
   }
 }
+/// https://www.techiedelight.com/trim-string-cpp-remove-leading-trailing-spaces/
+/// @param string
+std::string Utils::removeLeadingWhitespace(std::string& string)
+{
+  auto start = string.find_first_not_of(' ');
+  return start == std::string::npos ? "" : string.substr(start);
+}

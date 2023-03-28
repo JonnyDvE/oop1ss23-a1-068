@@ -31,14 +31,12 @@ Command CommandLine::readCommand()
   std::cout << " > ";
   std::string input;
   std::getline(std::cin, input);
+  input = Utils::removeLeadingWhitespace(input);
+  if(input.empty())
+    return Command(CommandType::INVALID);
   std::vector<std::string> vectorised_string;
   Utils::stringToVector(input, vectorised_string, ' ');
   Command command(vectorised_string);
-  if(vectorised_string.empty())
-  {
-    command.setType(CommandType::INVALID);
-    return command;
-  }
   switch (command.getType())
   {
     case CommandType::SHOW:
