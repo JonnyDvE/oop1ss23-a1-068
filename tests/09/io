@@ -68,7 +68,13 @@
 < addgrade Avada Kedavra 87
 > Grade was entered successfully!
 ?  > 
+< backnow
+> [ERROR] Invalid command or invalid number of parameters!
+?  > 
 < back
+?  > 
+< addstudent CLion Superior Slytherin
+> Successfully added student: CLion Superior
 ?  > 
 < show
 > 
@@ -117,8 +123,14 @@
 >     Patronus Charm - 74
 >     Avada Kedavra - 75
 > 
+>   Student: CLion Superior - NO GRADE AVAILABLE
+>     Werewolf - NO POINTS AVAILABLE
+>     Dementors - NO POINTS AVAILABLE
+>     Patronus Charm - NO POINTS AVAILABLE
+>     Avada Kedavra - NO POINTS AVAILABLE
+> 
 ?  > 
-< save csv_files/data_04_modified.csv
+< save csv_files/data_09_modified.csv
 > File saved successfully!
 ?  > 
 < quit
