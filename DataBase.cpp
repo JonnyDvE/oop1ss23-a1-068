@@ -8,6 +8,8 @@
 #include <sstream>
 #include <utility>
 
+
+//Hi Aleks
 const std::string ERROR_CODES[]{"[ERROR] Invalid command or invalid number of parameters!",
                   "[ERROR] As a student, you are not allowed to do this!",
                   "[ERROR] You can only do this in modification mode!",
