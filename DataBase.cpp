@@ -24,6 +24,7 @@ enum ERROR_CODE{INVALID, STUDENT, ONLYMOD, NOTMOD, USEREXISTS, INVALIDHOUSE, USE
 
 DataBase::DataBase(const std::string& filename)
 {
+  awda
     file_.open(filename, std::ifstream::in);
     active_user_ = nullptr;
 }
