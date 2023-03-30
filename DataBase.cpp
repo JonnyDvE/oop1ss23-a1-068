@@ -7,22 +7,19 @@
 #include <iostream>
 #include <sstream>
 #include <utility>
-
-
-//Hi Aleks
-const std::string ERROR_CODES[]{"[ERROR] Invalid command or invalid number of parameters!",
-                  "[ERROR] As a student, you are not allowed to do this!",
-                  "[ERROR] You can only do this in modification mode!",
-                  "[ERROR] You cannot do this in modification mode!",
-                  "[ERROR] This user already exists!",
-                  "[ERROR] Invalid house!",
-                  "[ERROR] This student does not exist!",
-                  "[ERROR] Grade cannot be entered!",
-                  "[ERROR] Invalid grade!",
-                  "[ERROR] Grade cannot be removed!",
-                  "[ERROR] File cannot be opened!"};
 enum ERROR_CODE{INVALID, STUDENT, ONLYMOD, NOTMOD, USEREXISTS, INVALIDHOUSE, USERNOEXISTS, CANTGRADE, INVALIDGRADE,
   CANTREMOVE, CANTOPENFILE};
+const std::string ERROR_CODES[]{"[ERROR] Invalid command or invalid number of parameters!",
+                                "[ERROR] As a student, you are not allowed to do this!",
+                                "[ERROR] You can only do this in modification mode!",
+                                "[ERROR] You cannot do this in modification mode!",
+                                "[ERROR] This user already exists!",
+                                "[ERROR] Invalid house!",
+                                "[ERROR] This student does not exist!",
+                                "[ERROR] Grade cannot be entered!",
+                                "[ERROR] Invalid grade!",
+                                "[ERROR] Grade cannot be removed!",
+                                "[ERROR] File cannot be opened!"}; 
 
 DataBase::DataBase(const std::string& filename)
 {

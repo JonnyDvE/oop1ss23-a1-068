@@ -1,7 +1,10 @@
 #include "Utils.hpp"
+#include "DataBase.hpp"
 #include <iostream>
+#include <sstream>
+#include <utility>
 
-//----------------------------------------------------------------------------------------------------------------------
+
 bool Utils::decimalStringToInt(const std::string& str, unsigned& number)
 {
   size_t position = 0;
@@ -17,7 +20,7 @@ bool Utils::decimalStringToInt(const std::string& str, unsigned& number)
 
   return position == str.length();
 }
-void Utils::stringToVector(std::string string, std::vector<std::string>& vector, char delimiter)
+void Utils::stringToVector(const std::string& string, std::vector<std::string>& vector, char delimiter)
 {
   size_t position = 0;
   size_t position2;

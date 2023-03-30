@@ -23,10 +23,10 @@ class Utils
     // @return true, if conversion was successful, false otherwise
     //
     static bool decimalStringToInt(const std::string& str, unsigned& number);
-
-    static void stringToVector(std::string string, std::vector<std::string>& vector, char delimiter);
+    static void stringToVector(const std::string& string, std::vector<std::string>& vector, char delimiter);
     static void stringToUpperCase(std::string& string);
     static std::string removeLeadingWhitespace(std::string& string);
+    static enum ERROR();
 };
 
 #endif // UTILS_HPP
