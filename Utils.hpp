@@ -26,7 +26,6 @@ class Utils
     static void stringToVector(const std::string& string, std::vector<std::string>& vector, char delimiter);
     static void stringToUpperCase(std::string& string);
     static std::string removeLeadingWhitespace(std::string& string);
-    static enum ERROR();
 };
 
 #endif // UTILS_HPP
