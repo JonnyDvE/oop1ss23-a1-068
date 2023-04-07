@@ -26,8 +26,3 @@ std::string HardSubject::calculateGrade(Student* student)
   }
 }
 HardSubject::HardSubject(std::string name) : Subject(std::move(name)) {}
-std::ostream& operator<<(std::ostream& os, const HardSubject& sub)
-{
-  os << sub.getType();
-  return os;
-}

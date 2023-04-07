@@ -23,7 +23,7 @@ private:
   Person* active_user_;
   Student* student_in_editing{};
   Person* isInDatabase(const std::string& name, const std::string& surname);
-  Subject* subjectInData(std::string name);
+  Subject* subjectInData(const std::string& name);
   void show();
   void addStudent(std::vector<std::string> args);
   bool modifyStudent(std::vector<std::string> args);
@@ -36,12 +36,12 @@ public:
   DataBase(DataBase&) = delete;
   ~DataBase();
   PersonType getUserLevel();
-  bool login(std::string username);
+  bool login(const std::string& username);
   bool execute(const Command& command);
   bool parseFile();
   bool open();
 
-  static std::string parseSubject(std::vector<std::string> vector);
+  static std::string parseSubject(const std::vector<std::string>& vector);
   std::string firstLineBuilder();
   std::string studentLineBuilder( Student* student);
   std::string professorLineBuilder(Professor* professor);

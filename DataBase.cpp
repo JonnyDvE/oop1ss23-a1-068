@@ -8,7 +8,7 @@
 #include "Utils.hpp"
 #include <iostream>
 #include <sstream>
-#include <utility>
+const int MINGRADE = 0, MAXGRADE = 100;
 enum ERROR_CODE{INVALID, STUDENT, ONLYMOD, NOTMOD, USEREXISTS, INVALIDHOUSE, USERNOEXISTS, CANTGRADE, INVALIDGRADE,
   CANTREMOVE, CANTOPENFILE};
 const std::string ERROR_CODES[]{"[ERROR] Invalid command or invalid number of parameters!",
@@ -32,10 +32,10 @@ PersonType DataBase::getUserLevel()
 {
   return active_user_->getType();
 }
-bool DataBase::login(std::string username)
+bool DataBase::login(const std::string& username)
 {
   std::vector<std::string> vector;
-  Utils::stringToVector(std::move(username), vector, ' ');
+  Utils::stringToVector(username, vector, ' ');
   if (vector.size() == 2)
   {
     active_user_ = isInDatabase(vector.at(0), vector.at(1));
@@ -73,7 +73,6 @@ bool DataBase::execute(const Command& command)
     case CommandType::QUIT:
       break;
   }
-
   return student_in_editing != nullptr;
 }
 bool DataBase::parseFile()
@@ -265,7 +264,7 @@ void DataBase::addGrade(std::vector<std::string> args)
       if(assignment->getName() == name && dynamic_cast<Professor*>(active_user_)->getSubject() == subject)
       {
         unsigned grade;
-        if(Utils::decimalStringToInt(args.at(args.size()-1), grade) && grade <= 100 && grade >= 0)
+        if(Utils::decimalStringToInt(args.at(args.size()-1), grade) && grade <= MAXGRADE && grade >= MINGRADE)
         {
           assignment->changeGrade(student_in_editing, grade);
           std::cout << "Grade was entered successfully!" << std::endl;
@@ -281,7 +280,7 @@ void DataBase::addGrade(std::vector<std::string> args)
   }
   std::cout << ERROR_CODES[CANTGRADE] << std::endl;
 }
-std::string DataBase::parseSubject(std::vector<std::string> vector)
+std::string DataBase::parseSubject(const std::vector<std::string>& vector)
 {
   std::stringstream ss;
   for(auto &string : vector)
@@ -369,7 +368,7 @@ std::string DataBase::professorLineBuilder(Professor* professor)
   }
   std::string output = ss.str();
   output.pop_back();
-  return  output;
+  return output;
 }
 std::string DataBase::studentLineBuilder(Student* student)
 {
@@ -392,7 +391,7 @@ std::string DataBase::studentLineBuilder(Student* student)
   output.pop_back();
   return  output;
 }
-Subject* DataBase::subjectInData(std::string name)
+Subject* DataBase::subjectInData(const std::string& name)
 {
   for(auto &subjects: subjects_)
   {

@@ -31,7 +31,7 @@ public:
   std::string getGradeString(int grade);
   virtual ~Subject();
   virtual std::string getType() const = 0;
-  friend std::ostream operator<<(std::ostream os, const Subject& sub);
+  friend std::ostream& operator<<(std::ostream os, const Subject& sub);
   
 };
 

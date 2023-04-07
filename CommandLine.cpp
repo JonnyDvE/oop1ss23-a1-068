@@ -8,6 +8,7 @@
 #include <iostream>
 #include <regex>
 #include <string>
+
 CommandLine::CommandLine() : user_level_(PersonType::Default), modification_mode_(false) {}
 CommandLine::~CommandLine() {}
 void CommandLine::setUserLevel(PersonType user_level)
@@ -48,7 +49,7 @@ Command CommandLine::readCommand()
     case CommandType::INVALID:
       break;
     case CommandType::ADDSTUDENT:
-      if(command.getParameters().size() != 3 )
+      if(command.getParameters().size() != 3)
         command.setType(CommandType::INVALID);
       break;
     case CommandType::MODIFYSTUDENT:
