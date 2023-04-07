@@ -3,6 +3,8 @@
 //
 
 #include "DataBase.hpp"
+#include "EasySubject.hpp"
+#include "HardSubject.hpp"
 #include "Utils.hpp"
 #include <iostream>
 #include <sstream>
@@ -123,9 +125,15 @@ bool DataBase::parseFile()
     }
     else
     {
+      Subject* subject;
       if (vectorisedLine.at(3).empty())
         return false;
-      auto * subject = new Subject(vectorisedLine.at(3), vectorisedLine.at(4) == "Hard");
+      if(vectorisedLine.at(4) == "Hard")
+        subject = new HardSubject(vectorisedLine.at(3));
+      else if(vectorisedLine.at(4) == "Easy")
+        subject = new EasySubject(vectorisedLine.at(3));
+      else 
+        return false;
       auto * professor = new Professor(name, surname, house, subject);
       professors_.push_back(professor);
       subjects_.push_back(subject);
@@ -326,7 +334,6 @@ void DataBase::save(std::vector<std::string> args)
     return ;
   }
     std::cout << ERROR_CODES[CANTOPENFILE] << std::endl;
-
 }
 std::string DataBase::firstLineBuilder()
 {
@@ -348,7 +355,7 @@ std::string DataBase::professorLineBuilder(Professor* professor)
   std::stringstream ss;
   ss << professor->getName() << ";" << professor->getSurname() << ";" << professor->getHouseString()
      << ";";
-  ss << professor->getSubject()->getName() << ";" << professor->getSubject()->difType() << ";";
+  ss << professor->getSubject()->getName() << ";" << professor->getSubject()->getType() << ";";
   for (auto subjects : subjects_)
   {
     for ([[maybe_unused]] auto assignments : subjects->getAssignments())

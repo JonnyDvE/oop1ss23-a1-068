@@ -37,7 +37,7 @@ void Utils::stringToUpperCase(std::string& string)
 {
   for (auto &ch : string)
   {
-    if(ch >= 97 && ch <= 122)
+    if(ch >= 'a' && ch <= 'z')
     {
       ch = ch - 32;
     }

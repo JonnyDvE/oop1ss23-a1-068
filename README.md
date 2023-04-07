@@ -287,7 +287,7 @@ In Hogwarts, there exist the following grades:
 | Dreadful       |  33 - 17   |
 | Troll          |   16 - 0   |
 
-In general, the subjects are divided into `EasySubject`s and `HardSubject`s.
+In general, the subjects are divided into `EASY`s and `HARD`s.
 
 For easy ones, the grade is computed by taking the integer part of the mean of all assignment.
 

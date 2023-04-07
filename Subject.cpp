@@ -6,7 +6,7 @@
 
 #include <iostream>
 #include <utility>
-Subject::Subject(std::string name, bool is_hard) : name_(std::move(name)), is_hard(is_hard) {}
+Subject::Subject(std::string name) : name_(std::move(name)){}
 void Subject::addAssignments(Assignment* assignments)
 {
   assignments_.push_back(assignments);
@@ -22,29 +22,6 @@ const std::string& Subject::getName() const
 const std::vector<Assignment*>& Subject::getAssignments() const
 {
   return assignments_;
-}
-std::string Subject::calculateGrade(Student* student)
-{
-  int grade = 1000;
-  int total = 0;
-
-  for(auto assignments : assignments_)
-  {
-    int current = assignments->getGradeAsInt(student);
-    if(current < 0)
-      return getGradeString(current);
-    if(current < grade)
-    {
-      grade = current;
-    }
-    if(current > 0)
-      total += current;
-  }
-  if(is_hard)
-  {
-    return getGradeString(grade);
-  }
-  return getGradeString(total/(assignments_.size()));
 }
 
 #pragma clang diagnostic ignored "-Wgnu-case-range"
@@ -68,10 +45,6 @@ std::string Subject::getGradeString(int grade)
       return "NO GRADE AVAILABLE";
   }
 }
-bool Subject::isHard() const
-{
-  return is_hard;
-}
 Subject::~Subject()
 {
   for(auto assigns : assignments_)
@@ -79,9 +52,8 @@ Subject::~Subject()
     delete assigns;
   }
 }
-std::string Subject::difType() const
+std::ostream& operator<<(std::ostream& os, const Subject& sub)
 {
-  if(is_hard)
-    return "Hard";
-  return "Easy";
+  os << sub.getType();
+  return os;
 }

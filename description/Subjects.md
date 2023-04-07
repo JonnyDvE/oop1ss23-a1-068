@@ -1,6 +1,6 @@
-# Subject / EasySubject / HardSubject
+# Subject / EASY / HARD
 
-This document describes all the classes responsible for representing subjects and calculating grades: the base class `Subject` and the two derived classes `EasySubject` and `HardSubject`.
+This document describes all the classes responsible for representing subjects and calculating grades: the base class `Subject` and the two derived classes `EASY` and `HARD`.
 
 ## `Subject.hpp` / `Subject.cpp`
 
@@ -12,7 +12,7 @@ HOGWARTSonline distinguishes between easy and hard subjects. To this end, define
 
 ### Class `Subject`
 
-The class `Subject` represents a course at Hogwarts and serves as the base class for `EasySubject` and `HardSubject`. Thus, it should be implemented as an abstract class.
+The class `Subject` represents a course at Hogwarts and serves as the base class for `EASY` and `HARD`. Thus, it should be implemented as an abstract class.
 
 #### Data Members (Member Variables)
 
@@ -44,15 +44,15 @@ The class `Subject` represents a course at Hogwarts and serves as the base class
 
 ---
 
-## `EasySubject.hpp` / `EasySubject.cpp`
+## `EASY.hpp` / `EASY.cpp`
 
-### Class `EasySubject`
+### Class `EASY`
 
-The class `EasySubject` is a derived class from `Subject`. This class does not contain any further data members.
+The class `EASY` is a derived class from `Subject`. This class does not contain any further data members.
 
 #### Constructor / Copy Constructor / Destructor
 
-- `EasySubject(std::string name)`
+- `EASY(std::string name)`
     - constructor of the class
     - calls the constructor of `Subject`
 - The copy constructor should be deleted explicitly.
@@ -65,19 +65,19 @@ The class `EasySubject` is a derived class from `Subject`. This class does not c
 - `std::string calculateGrade(Student* student) override`
     - implementation of the pure virtual methods of the base class
     - takes a student and returns the grade as a string
-    - see [Grading System](#grading-system) for `EasySubject`s
+    - see [Grading System](#grading-system) for `EASY`s
 
 ---
 
-## `HardSubject.hpp` / `HardSubject.cpp`
+## `HARD.hpp` / `HARD.cpp`
 
-### Class `HardSubject`
+### Class `HARD`
 
-The class `HardSubject` is a derived class from `Subject`. This class does not contain any further data members.
+The class `HARD` is a derived class from `Subject`. This class does not contain any further data members.
 
 #### Constructor / Copy-Constructor / Destructor
 
-- `HardSubject(std::string name)`
+- `HARD(std::string name)`
     - constructor of the class
     - calls the constructor of `Subject`
 - The Copy-Constructor should be deleted explicitly.
@@ -90,4 +90,4 @@ The class `HardSubject` is a derived class from `Subject`. This class does not c
 - `std::string calculateGrade(Student* student) override`
     - implementation of the pure virtual methods of the base class
     - takes a student and returns the grade as a string
-    - see [Grading System](#grading-system) for `HardSubject`s
+    - see [Grading System](#grading-system) for `HARD`s

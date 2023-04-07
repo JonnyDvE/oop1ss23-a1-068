@@ -1,7 +1,7 @@
 CC            := clang
 CXX           := clang++
 CCFLAGS       := -Wall -Wextra -pedantic -std=c17 -g
-CXXFLAGS      := -Wall -Wextra -pedantic -std=c++17 -g -c -o
+CXXFLAGS      := -Wall -Wextra -pedantic -std=c++17 -g -fstandalone-debug -c -o
 ASSIGNMENT    := a1
 
 BUILDDIR      := build
